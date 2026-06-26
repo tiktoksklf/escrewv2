@@ -1,0 +1,22 @@
+Crypto Escrow Marketplace
+
+Run it:
+  cd outputs/crypto-escrow-marketplace
+  node server.js
+
+Open:
+  http://127.0.0.1:4180
+
+Seed accounts:
+  Admin: zaso / owner
+  Seller: nova / demo
+  Buyer: iris / demo
+
+Notes:
+  - This is a complete local production-style build with persisted JSON data.
+  - For public deployment, read PUBLIC_SETUP.txt.
+  - Crypto payments are manually tracked: buyers submit transaction details, then the admin marks funds paid, releases escrow, or refunds.
+  - Wallets are set to the addresses provided in this build:
+    SOL, BTC, LTC, ETH
+  - To override them later, set:
+    SOL_WALLET, BTC_WALLET, LTC_WALLET, ETH_WALLET

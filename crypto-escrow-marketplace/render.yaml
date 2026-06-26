@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: crypto-escrow-marketplace
+    env: docker
+    plan: starter
+    disk:
+      name: marketplace-data
+      mountPath: /data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: DB_FILE
+        value: /data/vaultmarket-db.json

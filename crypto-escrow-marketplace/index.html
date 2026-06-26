@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VaultMarket - Crypto Escrow Marketplace</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app-shell">
+      <aside class="sidebar">
+        <button class="brand" data-view="home" type="button">
+          <span class="brand-mark">VM</span>
+          <span>
+            <strong>VaultMarket</strong>
+            <small>crypto escrow</small>
+          </span>
+        </button>
+        <nav class="nav" aria-label="Primary">
+          <button class="nav-button active" data-view="home" type="button">Home</button>
+          <button class="nav-button" data-view="market" type="button">Browse</button>
+          <button class="nav-button" data-view="post" type="button">Create Listing</button>
+          <button class="nav-button" data-view="orders" type="button">Orders</button>
+          <button class="nav-button" data-view="messages" type="button">Messages</button>
+          <button class="nav-button" data-view="notifications" type="button">Notifications</button>
+          <button class="nav-button" data-view="admin" type="button">Admin</button>
+        </nav>
+        <div class="wallet-box">
+          <span>Escrow wallet</span>
+          <select id="walletCoin" aria-label="Wallet coin">
+            <option>SOL</option>
+            <option>BTC</option>
+            <option>LTC</option>
+            <option>ETH</option>
+          </select>
+          <button id="copyWallet" class="mono-button" type="button">Loading...</button>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="topbar">
+          <div class="search-wrap">
+            <span aria-hidden="true">⌕</span>
+            <input id="searchInput" type="search" placeholder="Search services, goods, sellers, categories..." />
+          </div>
+          <div class="session-actions" id="sessionActions"></div>
+        </header>
+
+        <section class="view active" id="homeView">
+          <div class="hero">
+            <div class="hero-copy">
+              <h1>VaultMarket</h1>
+              <p>Crypto-only marketplace with manual escrow, anonymous paid listings, disputes, moderation, and admin control from end to end.</p>
+              <div class="hero-actions">
+                <button class="primary" data-view="market" type="button">Browse listings</button>
+                <button class="ghost" data-view="post" type="button">Post an item</button>
+              </div>
+            </div>
+            <div class="hero-panel">
+              <div>
+                <span class="kpi" id="kpiListings">0</span>
+                <small>active listings</small>
+              </div>
+              <div>
+                <span class="kpi" id="kpiEscrow">$0</span>
+                <small>held in escrow</small>
+              </div>
+              <div>
+                <span class="kpi" id="kpiDisputes">0</span>
+                <small>open disputes</small>
+              </div>
+            </div>
+          </div>
+          <div class="notice">
+            Legal goods and services only. Payments go to the escrow wallet first; the admin releases or refunds funds after completion or dispute review.
+          </div>
+          <div class="category-tabs" id="homeCategories"></div>
+          <div class="grid" id="featuredGrid"></div>
+        </section>
+
+        <section class="view" id="marketView">
+          <div class="section-head">
+            <div>
+              <h2>Browse</h2>
+              <p>Search legal listings, save favorites, message sellers, and buy through crypto escrow.</p>
+            </div>
+            <div class="category-tabs" id="categoryTabs"></div>
+          </div>
+          <div class="grid" id="listingGrid"></div>
+        </section>
+
+        <section class="view" id="postView">
+          <div class="section-head compact">
+            <div>
+              <h2>Create Listing</h2>
+              <p>Anonymous posting costs a $50 crypto fee and still remains visible to admin.</p>
+            </div>
+          </div>
+          <form class="panel form-grid" id="postForm">
+            <label>Title<input name="title" required minlength="4" placeholder="Smart contract review" /></label>
+            <label>Category<select name="category" required></select></label>
+            <label>Price in USD<input name="price" type="number" min="1" step="1" required placeholder="250" /></label>
+            <label>Accepted coin<select name="coin" required><option>SOL</option><option>BTC</option><option>LTC</option><option>ETH</option></select></label>
+            <label>Type<select name="kind" required><option>Service</option><option>Digital good</option><option>Physical good</option></select></label>
+            <label>Ships or delivers by<input name="deliveryWindow" required placeholder="2 business days" /></label>
+            <label class="wide check"><input name="anonymous" type="checkbox" /> Post anonymously for a $50 crypto fee</label>
+            <label class="wide">Description<textarea name="description" required rows="5" placeholder="Describe the legal good or service clearly."></textarea></label>
+            <label class="wide">Private delivery instructions<textarea name="delivery" required rows="4" placeholder="Shown to the buyer after admin confirms payment."></textarea></label>
+            <button class="primary wide" type="submit">Submit listing</button>
+          </form>
+        </section>
+
+        <section class="view" id="ordersView">
+          <div class="section-head compact">
+            <div><h2>Orders</h2><p>Track escrow orders. After buyers confirm receipt, they should contact @v2zaso on Telegram.</p></div>
+          </div>
+          <div class="orders-list" id="ordersList"></div>
+        </section>
+
+        <section class="view" id="messagesView">
+          <div class="section-head compact">
+            <div><h2>Messages</h2><p>Buyer-seller conversations are visible to admin for moderation and dispute review.</p></div>
+          </div>
+          <div class="split">
+            <div class="panel" id="threadList"></div>
+            <div class="panel" id="threadDetail"></div>
+          </div>
+        </section>
+
+        <section class="view" id="notificationsView">
+          <div class="section-head compact">
+            <div><h2>Notifications</h2><p>Marketplace updates, order activity, reports, and admin decisions.</p></div>
+          </div>
+          <div class="feed" id="notificationList"></div>
+        </section>
+
+        <section class="view" id="profileView">
+          <div id="profileHost"></div>
+        </section>
+
+        <section class="view" id="legalView">
+          <div class="legal panel">
+            <h2>Terms of Service</h2>
+            <p>VaultMarket is for legal goods and services only. Prohibited listings include stolen property, credentials, malware, illegal substances, regulated weapons, fraud services, impersonation, and anything that violates applicable law or platform rules.</p>
+            <p>All payments are crypto-only and sent to the escrow wallet first. The admin manually holds funds, releases funds after completion, or refunds after dispute review.</p>
+            <h2>Privacy Policy</h2>
+            <p>The platform stores account, listing, order, message, payment, dispute, report, and activity log data needed to operate the marketplace. Anonymous listings hide seller identity publicly, but the admin can always see the owner.</p>
+          </div>
+        </section>
+
+        <section class="view" id="adminView">
+          <div class="section-head compact">
+            <div><h2>Admin Dashboard</h2><p>Full control over users, listings, orders, payments, disputes, messages, reports, logs, refunds, and escrow releases.</p></div>
+          </div>
+          <div class="admin-tabs" id="adminTabs"></div>
+          <div id="adminPanel"></div>
+        </section>
+      </main>
+    </div>
+
+    <dialog id="authDialog" class="modal">
+      <form method="dialog" class="modal-card" id="authForm">
+        <button class="icon-close" id="closeAuth" type="button" aria-label="Close">×</button>
+        <h2 id="authTitle">Log in</h2>
+        <label>Username<input name="username" autocomplete="username" required /></label>
+        <label>Email<input name="email" type="email" autocomplete="email" /></label>
+        <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+        <button class="primary" id="authSubmit" type="submit">Log in</button>
+        <button class="text-button" id="swapAuth" type="button">Need an account? Sign up</button>
+      </form>
+    </dialog>
+    <dialog id="detailsDialog" class="modal"></dialog>
+    <dialog id="actionDialog" class="modal"></dialog>
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+    <script src="app.js"></script>
+  </body>
+</html>
